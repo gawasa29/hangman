@@ -12,5 +12,4 @@ environment:
 
 dev_dependencies:
   lints: ^1.0.0
-dependencies: 
   test: ^1.20.2

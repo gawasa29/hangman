@@ -3,7 +3,7 @@ import 'dart:io';
 void main(List<String> arguments) {
   exitCode = 0;
   hangman(arguments[0]);
-} 
+}
 
 
 void hangman(word) {
@@ -18,39 +18,38 @@ void hangman(word) {
     "|",
     "|",
   ];
-  dynamic rletters = word.split('');
+  dynamic word_disassembly = word.split('');
   dynamic board = [];
   for (var i = 0; i < word.length; i++) {
     board.add("_");
   }
 
-  print("ハングマンへようこそ");
+  print("Welcome to Hangman");
 
   //ここからゲームの具体的な処理
   while (true) {
-    print("一文字予測してね！");
+    print("Predict one letter!");
     dynamic char = stdin.readLineSync();
 //入力した文字列が入ってるかの確認
-    if (rletters.contains(char)) {
-      print("正解！！文字があるよ");
-      int cind = rletters.indexOf(char);
-      board[cind] = char;
+    if (word_disassembly.contains(char)) {
+      print("Correct!");
+      board[word_disassembly.indexOf(char)] = char;
       print(board);
     } else {
-      print("失敗！！文字がないよ");
+      print("Failure!");
       wrong += 1;
     }
     stages.removeAt(0); //stagesの値を前から一個削除
     print(stages.join("\n")); //stagesを見やすいように改行を入れる
     //boardから"_"がなくなったら勝ちの処理実行
     if (!board.contains("_")) {
-      print("あなたの勝ち!正解は${word}");
+      print("You win! Correct answer is${word}");
       exitCode = 0;
       break;
     }
     //stagesの値がなくなったら負けの処理実行
     if (stages.isEmpty) {
-      print("あなたの負け!正解は ${word}");
+      print("You lose! The correct answer is${word}");
       exitCode = 1;
       break;
     }
