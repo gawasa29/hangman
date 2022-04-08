@@ -1,10 +1,12 @@
 import 'dart:io';
 
-void main() {
-  hangman("cat");
-}
+void main(List<String> arguments) {
+  exitCode = 0;
+  hangman(arguments[0]);
+} 
 
-hangman(word) {
+
+void hangman(word) {
   int wrong = 0; //プレイヤーが何回間違えたか
   List stages = [
     "",
@@ -43,11 +45,13 @@ hangman(word) {
     //boardから"_"がなくなったら勝ちの処理実行
     if (!board.contains("_")) {
       print("あなたの勝ち!正解は${word}");
+      exitCode = 0;
       break;
     }
     //stagesの値がなくなったら負けの処理実行
     if (stages.isEmpty) {
       print("あなたの負け!正解は ${word}");
+      exitCode = 1;
       break;
     }
   }
