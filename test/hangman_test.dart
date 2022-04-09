@@ -8,16 +8,22 @@ const path = 'hangman.dart';
 @TestOn('vm')
 void main() {
   var inputs = ["c", "co", "cc", "c o", "coco", "co co", "abcdef", " "];
-  inputs.forEach((input) => {
-        test('Should survive : ${input}', () async {
-          final process = await Process.start('dart', ['$path', input]);
-          for (var i = 0; i < input.length; i++) {
-            process.stdin.writeln(input[i]);
-          }
-          ;
-          expect(await process.exitCode, equals(0));
-        }, timeout: Timeout(Duration(seconds: 2)))
-      });
+  inputs.forEach((input) {
+    test('Should survive : ${input}', () async {
+      final process = await Process.start('dart', ['$path', input]);
+      for (var i = 0; i < input.length; i++) {
+        process.stdin.writeln(input[i]);
+      }
+      ;
+      expect(await process.exitCode, equals(0));
+    }, timeout: Timeout(Duration(seconds: 2)));
+
+    test('Should survive word: ${input}', () async {
+      final process = await Process.start('dart', ['$path', input]);
+      process.stdin.writeln(input);
+      expect(await process.exitCode, equals(0));
+    }, timeout: Timeout(Duration(seconds: 2)));
+  });
 
   test('Should be hanged', () async {
     final process = await Process.start('dart', ['$path', 'cat']);
@@ -27,4 +33,9 @@ void main() {
     ;
     expect(await process.exitCode, isNot(0));
   }, timeout: Timeout(Duration(seconds: 2)));
+
+    test('Null Input', () async {
+      final process = await Process.start('dart', ['$path']);
+      expect(await process.exitCode, isNot(0));
+    }, timeout: Timeout(Duration(seconds: 2)));
 }
